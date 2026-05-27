@@ -67,6 +67,7 @@ const BG_API = isMobile
   : 'https://imgapi.cn/api.php?fl=dongman&gs=images&t=';
 const LINKS_FILE = 'links.json';
 const LOCAL_ICON_DIR = 'assets/icons/';
+const CUSTOM_SITES_KEY = 'fiveSecondWorkbenchCustomSites';
 const DEFAULT_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yIDEyaDIwIj48L3BhdGg+PHBhdGggZD0iTTEyIDJhMTUuMyAxNS4zIDAgMCAxIDQgMTAgMTUuMyAxNS4zIDAgMCAxLTQgMTAgMTUuMyAxNS4zIDAgMCAxLTQtMTAgMTUuMyAxNS4zIDAgMCAxIDQtMTB6Ij48L3BhdGg+PC9zdmc+';
 
 const MANUAL_FAVICONS = {
@@ -217,6 +218,139 @@ function fallbackIcon(title, url) {
         font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#fff">${label}</text>
     </svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function getCustomSites() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CUSTOM_SITES_KEY) || '[]');
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomSites(sites) {
+  localStorage.setItem(CUSTOM_SITES_KEY, JSON.stringify(sites));
+}
+
+function normalizeUrl(url) {
+  const trimmed = url.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
+function mergeCustomSites(sections, customSites) {
+  const merged = sections.map(section => ({
+    section: section.section,
+    items: [...section.items]
+  }));
+
+  customSites.forEach(site => {
+    const sectionName = site.section || '其他';
+    let section = merged.find(item => item.section === sectionName);
+    if (!section) {
+      section = { section: sectionName, items: [] };
+      merged.push(section);
+    }
+    section.items.unshift({
+      ...site,
+      desc: site.desc || '本地新增网站',
+      'data-desc': `${site.title || ''} ${site.desc || ''} ${site.url || ''}`
+    });
+  });
+
+  return merged;
+}
+
+function refreshCards() {
+  if (!_linksData) return;
+  renderCards(mergeCustomSites(_linksData, getCustomSites()));
+}
+
+function renderCustomSiteList() {
+  const box = document.getElementById('customSites');
+  if (!box) return;
+  const sites = getCustomSites();
+  box.innerHTML = '';
+
+  const title = document.createElement('div');
+  title.className = 'custom-sites-title';
+  title.textContent = sites.length ? '本地新增' : '暂无本地新增网站';
+  box.appendChild(title);
+
+  sites.forEach(site => {
+    const row = document.createElement('div');
+    row.className = 'custom-site-row';
+
+    const info = document.createElement('div');
+    info.className = 'custom-site-info';
+    const name = document.createElement('strong');
+    name.textContent = site.title;
+    const meta = document.createElement('span');
+    meta.textContent = `${site.section || '其他'} · ${getDomain(site.url) || site.url}`;
+    info.appendChild(name);
+    info.appendChild(meta);
+
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.textContent = '删除';
+    del.addEventListener('click', () => {
+      saveCustomSites(getCustomSites().filter(item => item.id !== site.id));
+      renderCustomSiteList();
+      refreshCards();
+    });
+
+    row.appendChild(info);
+    row.appendChild(del);
+    box.appendChild(row);
+  });
+}
+
+function openManageModal() {
+  const modal = document.getElementById('manageModal');
+  if (!modal) return;
+  renderCustomSiteList();
+  modal.hidden = false;
+  document.getElementById('siteTitle')?.focus();
+}
+
+function closeManageModal() {
+  const modal = document.getElementById('manageModal');
+  if (modal) modal.hidden = true;
+}
+
+function initLocalManager() {
+  document.getElementById('manageBtn')?.addEventListener('click', openManageModal);
+  document.getElementById('closeManageBtn')?.addEventListener('click', closeManageModal);
+  document.getElementById('manageModal')?.addEventListener('click', event => {
+    if (event.target.id === 'manageModal') closeManageModal();
+  });
+
+  document.getElementById('siteForm')?.addEventListener('submit', event => {
+    event.preventDefault();
+    const title = document.getElementById('siteTitle').value.trim();
+    const url = normalizeUrl(document.getElementById('siteUrl').value);
+    const section = document.getElementById('siteSection').value;
+    const desc = document.getElementById('siteDesc').value.trim();
+    if (!title || !url) return;
+
+    const domain = getDomain(url);
+    if (!domain) return;
+
+    const sites = getCustomSites().filter(site => getDomain(site.url) !== domain);
+    sites.unshift({
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      title,
+      url,
+      section,
+      desc
+    });
+    saveCustomSites(sites);
+    event.target.reset();
+    document.getElementById('siteSection').value = section;
+    renderCustomSiteList();
+    refreshCards();
+  });
 }
 
 /* ── 渲染分类 Tab ── */
@@ -503,12 +637,10 @@ function changeBackground() {
 /* ── 入口 ── */
 document.addEventListener('DOMContentLoaded', async () => {
   changeBackground();
+  initLocalManager();
 
   renderSearchTabs();
   updateSearchBoxEngine();
-
-  injectNetToggleBtn();
-  updateNetToggleBtn();
 
   // 引擎触发器点击
   document.getElementById('engineTrigger')?.addEventListener('click', () => {
@@ -525,7 +657,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const res  = await fetch(LINKS_FILE);
     const data = await res.json();
     _linksData = data;
-    renderCards(data);
+    refreshCards();
   } catch (err) {
     console.error('加载 links.json 失败：', err);
     document.getElementById('main-content').innerHTML =
