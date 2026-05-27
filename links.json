@@ -1,0 +1,345 @@
+[
+  {
+    "section": "常用",
+    "items": [
+      {
+        "title": "Runway",
+        "url": "https://runwayml.com/",
+        "desc": "AI视频生成、编辑和工作流",
+        "data-desc": "runway ai video generative session workflows seedance 视频生成"
+      },
+      {
+        "title": "ChatGPT",
+        "url": "https://chatgpt.com/",
+        "desc": "通用AI助手、提示词和代码协作",
+        "data-desc": "chatgpt openai codex gpt 提示词 代码"
+      },
+      {
+        "title": "Gemini",
+        "url": "https://gemini.google.com/",
+        "desc": "多模态分析、分镜和长文生成",
+        "data-desc": "gemini google ai 多模态 分镜 漫剧 策划"
+      },
+      {
+        "title": "即梦AI",
+        "url": "https://jimeng.jianying.com/",
+        "desc": "字节系图像与视频创作平台",
+        "data-desc": "即梦 dreamina jianying seedance 剪映 图生视频 文生视频"
+      },
+      {
+        "title": "DeepSeek",
+        "url": "https://chat.deepseek.com/",
+        "desc": "中文推理、剧本拆解和代码辅助",
+        "data-desc": "deepseek 深度求索 推理 代码 剧本"
+      },
+      {
+        "title": "Midjourney",
+        "url": "https://www.midjourney.com/",
+        "desc": "高质量AI图像生成",
+        "data-desc": "midjourney mj ai image"
+      },
+      {
+        "title": "LibTV",
+        "url": "https://liblib.tv/",
+        "desc": "专业视频创作与项目工作台",
+        "data-desc": "libtv 视频创作 分镜 项目 漫剧"
+      },
+      {
+        "title": "RunningHub RHTV",
+        "url": "https://rhtv.runninghub.cn/",
+        "desc": "AI创意工作流与视频画布",
+        "data-desc": "runninghub rhtv comfyui 工作流 视频画布"
+      },
+      {
+        "title": "GitHub",
+        "url": "https://github.com/",
+        "desc": "代码托管、开源项目和插件搜索",
+        "data-desc": "github code repo copilot jimeng api"
+      },
+      {
+        "title": "AIX视觉",
+        "url": "https://aix.studio/",
+        "desc": "AI视觉创作工具",
+        "data-desc": "aix studio ai 视觉"
+      },
+      {
+        "title": "小红书",
+        "url": "https://www.xiaohongshu.com/",
+        "desc": "内容灵感、种草和案例参考",
+        "data-desc": "小红书 xiaohongshu rednote"
+      },
+      {
+        "title": "抖音",
+        "url": "https://www.douyin.com/",
+        "desc": "短视频热点、账号和内容参考",
+        "data-desc": "抖音 douyin 短视频 热点"
+      },
+      {
+        "title": "B站",
+        "url": "https://www.bilibili.com/",
+        "desc": "教程、案例和创作者内容",
+        "data-desc": "bilibili b站 教程 ai 漫剧"
+      },
+      {
+        "title": "豆包",
+        "url": "https://www.doubao.com/chat/",
+        "desc": "字节跳动AI助手",
+        "data-desc": "豆包 doubao ai 字节"
+      },
+      {
+        "title": "飞书",
+        "url": "https://www.feishu.cn/",
+        "desc": "文档、资料和团队协作",
+        "data-desc": "飞书 lark feishu 文档"
+      }
+    ]
+  },
+  {
+    "section": "视频",
+    "items": [
+      {
+        "title": "可灵AI",
+        "url": "https://klingai.com/",
+        "desc": "AI视频生成和灵动画布",
+        "data-desc": "可灵 kling ai 视频 灵动画布"
+      },
+      {
+        "title": "海螺AI",
+        "url": "https://hailuoai.com/",
+        "desc": "MiniMax视频生成与创作",
+        "data-desc": "海螺 hailuo minimax 视频"
+      },
+      {
+        "title": "Pika",
+        "url": "https://pika.art/",
+        "desc": "短视频、动效和创意视频生成",
+        "data-desc": "pika ai video"
+      },
+      {
+        "title": "Luma",
+        "url": "https://lumalabs.ai/dream-machine",
+        "desc": "Dream Machine图生视频",
+        "data-desc": "luma dream machine video"
+      },
+      {
+        "title": "PixVerse",
+        "url": "https://pixverse.ai/",
+        "desc": "AI视频生成和角色动效",
+        "data-desc": "pixverse ai video"
+      },
+      {
+        "title": "Martini Art",
+        "url": "https://martini.art/",
+        "desc": "聚合多模型AI视频画布",
+        "data-desc": "martini art sora runway kling video canvas"
+      },
+      {
+        "title": "TapNow",
+        "url": "https://tapnow.ai/",
+        "desc": "AI原生创意画布和叙事视频",
+        "data-desc": "tapnow taptv ai 创意画布 叙事"
+      }
+    ]
+  },
+  {
+    "section": "图片",
+    "items": [
+      {
+        "title": "OpenArt",
+        "url": "https://openart.ai/",
+        "desc": "AI图像、视频工具和创意编辑",
+        "data-desc": "openart nano banana ai image video"
+      },
+      {
+        "title": "LiblibAI",
+        "url": "https://www.liblib.art/",
+        "desc": "模型、工作流和AI创作社区",
+        "data-desc": "liblibAI 哩布哩布 模型 工作流"
+      },
+      {
+        "title": "Lovart",
+        "url": "https://www.lovart.ai/",
+        "desc": "AI设计智能体和平面设计",
+        "data-desc": "lovart ai design agent"
+      },
+      {
+        "title": "NeoAI",
+        "url": "https://neodomain.cn/",
+        "desc": "漫剧制作、无限画布和短视频",
+        "data-desc": "neoai 漫剧 无限画布 ai视频"
+      },
+      {
+        "title": "小云雀AI",
+        "url": "https://xyq.jianying.com/",
+        "desc": "一句话生成爆款创意",
+        "data-desc": "小云雀 jianying ai 爆款"
+      },
+      {
+        "title": "Krea",
+        "url": "https://www.krea.ai/",
+        "desc": "实时生成、增强和创意图像",
+        "data-desc": "krea ai image enhance"
+      },
+      {
+        "title": "Civitai",
+        "url": "https://civitai.com/",
+        "desc": "Stable Diffusion模型社区",
+        "data-desc": "civitai stable diffusion model lora"
+      }
+    ]
+  },
+  {
+    "section": "语音",
+    "items": [
+      {
+        "title": "Suno",
+        "url": "https://suno.com/",
+        "desc": "AI音乐生成与歌曲创作",
+        "data-desc": "suno ai music song 音乐 歌曲"
+      },
+      {
+        "title": "ElevenLabs",
+        "url": "https://elevenlabs.io/",
+        "desc": "AI配音、音色克隆和语音生成",
+        "data-desc": "elevenlabs ai voice tts 配音"
+      },
+      {
+        "title": "MiniMax Audio",
+        "url": "https://www.minimax.io/audio",
+        "desc": "MiniMax语音生成与音频模型",
+        "data-desc": "minimax audio 语音 tts"
+      },
+      {
+        "title": "讯飞开放平台",
+        "url": "https://www.xfyun.cn/",
+        "desc": "语音识别、合成和星火能力",
+        "data-desc": "讯飞 xfyun 语音识别 语音合成"
+      },
+      {
+        "title": "通义听悟",
+        "url": "https://tingwu.aliyun.com/",
+        "desc": "音视频转写、总结和会议记录",
+        "data-desc": "通义听悟 aliyun 语音转写"
+      },
+      {
+        "title": "剪映",
+        "url": "https://www.capcut.cn/",
+        "desc": "字幕、配音和短视频剪辑",
+        "data-desc": "剪映 capcut 字幕 配音 剪辑"
+      }
+    ]
+  },
+  {
+    "section": "其他",
+    "items": [
+      {
+        "title": "Claude",
+        "url": "https://claude.ai/",
+        "desc": "写作、分析和代码协作",
+        "data-desc": "claude anthropic ai code writing"
+      },
+      {
+        "title": "RunningHub",
+        "url": "https://www.runninghub.cn/",
+        "desc": "云端ComfyUI和AI应用工作流",
+        "data-desc": "runninghub comfyui 工作流 模型 api"
+      },
+      {
+        "title": "Hugging Face",
+        "url": "https://huggingface.co/",
+        "desc": "模型、数据集和Spaces",
+        "data-desc": "huggingface models datasets spaces"
+      },
+      {
+        "title": "Replicate",
+        "url": "https://replicate.com/",
+        "desc": "在线运行和调用AI模型",
+        "data-desc": "replicate ai model api"
+      },
+      {
+        "title": "OpenRouter",
+        "url": "https://openrouter.ai/",
+        "desc": "多模型API网关",
+        "data-desc": "openrouter llm api"
+      },
+      {
+        "title": "SiliconFlow",
+        "url": "https://siliconflow.cn/",
+        "desc": "国产模型API和推理平台",
+        "data-desc": "siliconflow 硅基流动 模型 api"
+      },
+      {
+        "title": "OpenAI Platform",
+        "url": "https://platform.openai.com/",
+        "desc": "OpenAI API和开发者控制台",
+        "data-desc": "openai platform api keys"
+      },
+      {
+        "title": "Google AI Studio",
+        "url": "https://aistudio.google.com/",
+        "desc": "Gemini API、密钥和用量管理",
+        "data-desc": "google ai studio gemini api keys"
+      },
+      {
+        "title": "DeepSeek API",
+        "url": "https://api-docs.deepseek.com/",
+        "desc": "DeepSeek接口文档",
+        "data-desc": "deepseek api docs"
+      },
+      {
+        "title": "Runway Developer",
+        "url": "https://dev.runwayml.com/",
+        "desc": "Runway开发者门户",
+        "data-desc": "runway developer api"
+      },
+      {
+        "title": "Cursor",
+        "url": "https://cursor.com/",
+        "desc": "AI代码编辑器",
+        "data-desc": "cursor ai code editor"
+      },
+      {
+        "title": "CodeBuddy",
+        "url": "https://codebuddy.cn/",
+        "desc": "腾讯云AI代码助手",
+        "data-desc": "codebuddy 腾讯云 代码助手"
+      },
+      {
+        "title": "AI工具集",
+        "url": "https://ai-bot.cn/",
+        "desc": "国内外AI工具导航",
+        "data-desc": "ai工具集 导航 工具大全"
+      },
+      {
+        "title": "大桶资料库",
+        "url": "https://hub.datong-ai.cn/",
+        "desc": "AI创作者资源站",
+        "data-desc": "大桶 资料库 ai 创作者"
+      },
+      {
+        "title": "知乎",
+        "url": "https://www.zhihu.com/",
+        "desc": "问答、经验和资料搜索",
+        "data-desc": "知乎 zhihu 问答"
+      },
+      {
+        "title": "微博",
+        "url": "https://weibo.com/",
+        "desc": "热点、话题和舆情观察",
+        "data-desc": "微博 weibo 热点"
+      },
+      {
+        "title": "百度",
+        "url": "https://www.baidu.com/",
+        "desc": "中文搜索和资料检索",
+        "data-desc": "百度 搜索 baidu"
+      },
+      {
+        "title": "PromptHub",
+        "url": "https://prompthub.xin/",
+        "desc": "提示词库、收藏和创作分享",
+        "data-desc": "prompthub prompt 提示词 seedance 即梦"
+      }
+    ]
+  }
+]
