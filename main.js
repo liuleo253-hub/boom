@@ -68,6 +68,7 @@ const BG_API = isMobile
 const LINKS_FILE = 'links.json';
 const LOCAL_ICON_DIR = 'assets/icons/';
 const CUSTOM_SITES_KEY = 'fiveSecondWorkbenchCustomSites';
+const SORT_ORDER_KEY = 'fiveSecondWorkbenchSortOrder';
 const DEFAULT_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yIDEyaDIwIj48L3BhdGg+PHBhdGggZD0iTTEyIDJhMTUuMyAxNS4zIDAgMCAxIDQgMTAgMTUuMyAxNS4zIDAgMCAxLTQgMTAgMTUuMyAxNS4zIDAgMCAxLTQtMTAgMTUuMyAxNS4zIDAgMCAxIDQtMTB6Ij48L3BhdGg+PC9zdmc+';
 
 const MANUAL_FAVICONS = {
@@ -231,6 +232,37 @@ function getCustomSites() {
 
 function saveCustomSites(sites) {
   localStorage.setItem(CUSTOM_SITES_KEY, JSON.stringify(sites));
+}
+
+function getSortOrder() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(SORT_ORDER_KEY) || '{}');
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveSectionSortOrder(sectionName, keys) {
+  const order = getSortOrder();
+  order[sectionName] = keys;
+  localStorage.setItem(SORT_ORDER_KEY, JSON.stringify(order));
+}
+
+function getItemKey(item) {
+  return normalizeDomain(getDomain(item.url)) || item.url;
+}
+
+function applySectionSort(sectionName, items) {
+  const saved = getSortOrder()[sectionName];
+  if (!Array.isArray(saved) || !saved.length) return items;
+
+  const index = new Map(saved.map((key, order) => [key, order]));
+  return [...items].sort((a, b) => {
+    const aIndex = index.has(getItemKey(a)) ? index.get(getItemKey(a)) : Number.MAX_SAFE_INTEGER;
+    const bIndex = index.has(getItemKey(b)) ? index.get(getItemKey(b)) : Number.MAX_SAFE_INTEGER;
+    return aIndex - bIndex;
+  });
 }
 
 function normalizeUrl(url) {
@@ -542,6 +574,7 @@ function renderCards(sections) {
       return true;
     });
     if (!uniqueItems.length) return;
+    const sortedItems = applySectionSort(section, uniqueItems);
 
     const sec = document.createElement('div');
     sec.className = 'section';
@@ -554,13 +587,16 @@ function renderCards(sections) {
     const grid = document.createElement('div');
     grid.className = 'link-container';
 
-    uniqueItems.forEach(item => {
+    sortedItems.forEach(item => {
       const a = document.createElement('a');
       a.href         = getCardUrl(item);
       a.target       = '_blank';
       a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
+      a.dataset.section = section;
+      a.dataset.key = getItemKey(item);
       a.rel          = 'noopener noreferrer';
+      a.draggable    = true;
       if (item.intranet) {
         a.dataset.url      = item.url;
         a.dataset.intranet = item.intranet;
@@ -620,7 +656,65 @@ function renderCards(sections) {
     main.appendChild(sec);
   });
 
+  bindDragSort();
   bindTouchTooltip();
+}
+
+function getDragTarget(container, x, y) {
+  const cards = [...container.querySelectorAll('.card:not(.dragging):not(.add-card):not(.hidden)')];
+
+  return cards.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const distance = Math.hypot(x - (box.left + box.width / 2), y - (box.top + box.height / 2));
+    if (distance < closest.distance) return { distance, element: child, box };
+    return closest;
+  }, { distance: Number.POSITIVE_INFINITY, element: null, box: null });
+}
+
+function saveGridOrder(grid) {
+  const sectionName = grid.closest('.section')?.querySelector('.section-title')?.textContent;
+  if (!sectionName) return;
+  const keys = [...grid.querySelectorAll('.card:not(.add-card)')]
+    .map(card => card.dataset.key)
+    .filter(Boolean);
+  saveSectionSortOrder(sectionName, keys);
+}
+
+function bindDragSort() {
+  document.querySelectorAll('.link-container').forEach(grid => {
+    grid.addEventListener('dragover', event => {
+      event.preventDefault();
+      const dragging = document.querySelector('.card.dragging');
+      if (!dragging || dragging.parentElement !== grid) return;
+      const addCard = grid.querySelector('.add-card');
+      const target = getDragTarget(grid, event.clientX, event.clientY);
+      if (!target.element) {
+        grid.insertBefore(dragging, addCard);
+      } else if (event.clientY < target.box.top + target.box.height / 2 ||
+        (Math.abs(event.clientY - (target.box.top + target.box.height / 2)) < target.box.height / 2 &&
+          event.clientX < target.box.left + target.box.width / 2)) {
+        grid.insertBefore(dragging, target.element);
+      } else {
+        grid.insertBefore(dragging, target.element.nextSibling === addCard ? addCard : target.element.nextSibling);
+      }
+    });
+
+    grid.addEventListener('drop', event => {
+      event.preventDefault();
+      saveGridOrder(grid);
+    });
+  });
+
+  document.querySelectorAll('.card:not(.add-card)').forEach(card => {
+    card.addEventListener('dragstart', () => {
+      card.classList.add('dragging');
+    });
+
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      saveGridOrder(card.closest('.link-container'));
+    });
+  });
 }
 
 /* ── 移动端长按 Tooltip ── */

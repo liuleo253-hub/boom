@@ -342,6 +342,20 @@ h1::after { display: none; }
   -webkit-tap-highlight-color: transparent;
 }
 
+.card[draggable="true"] {
+  cursor: grab;
+}
+
+.card[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.card.dragging {
+  opacity: 0.45;
+  transform: scale(0.98);
+  border-color: rgba(16,163,127,0.65);
+}
+
 .card-top {
   display: flex;
   align-items: center;
