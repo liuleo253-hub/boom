@@ -239,6 +239,13 @@ function normalizeUrl(url) {
   return `https://${trimmed}`;
 }
 
+function titleFromUrl(url) {
+  const domain = normalizeDomain(getDomain(url));
+  if (!domain) return '新网站';
+  const main = domain.split('.')[0] || domain;
+  return main.replace(/[-_]+/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+}
+
 function mergeCustomSites(sections, customSites) {
   const merged = sections.map(section => ({
     section: section.section,
@@ -311,7 +318,16 @@ function openManageModal() {
   if (!modal) return;
   renderCustomSiteList();
   modal.hidden = false;
-  document.getElementById('siteTitle')?.focus();
+  document.getElementById('siteUrl')?.focus();
+}
+
+function openAddSiteModal(sectionName) {
+  document.getElementById('siteSection').value = sectionName || '其他';
+  document.getElementById('targetSectionName').textContent = sectionName || '其他';
+  document.getElementById('siteUrl').value = '';
+  document.getElementById('siteTitle').value = '';
+  document.getElementById('siteDesc').value = '';
+  openManageModal();
 }
 
 function closeManageModal() {
@@ -320,7 +336,6 @@ function closeManageModal() {
 }
 
 function initLocalManager() {
-  document.getElementById('manageBtn')?.addEventListener('click', openManageModal);
   document.getElementById('closeManageBtn')?.addEventListener('click', closeManageModal);
   document.getElementById('manageModal')?.addEventListener('click', event => {
     if (event.target.id === 'manageModal') closeManageModal();
@@ -328,10 +343,10 @@ function initLocalManager() {
 
   document.getElementById('siteForm')?.addEventListener('submit', event => {
     event.preventDefault();
-    const title = document.getElementById('siteTitle').value.trim();
     const url = normalizeUrl(document.getElementById('siteUrl').value);
+    const title = document.getElementById('siteTitle').value.trim() || titleFromUrl(url);
     const section = document.getElementById('siteSection').value;
-    const desc = document.getElementById('siteDesc').value.trim();
+    const desc = document.getElementById('siteDesc').value.trim() || '本地新增网站';
     if (!title || !url) return;
 
     const domain = getDomain(url);
@@ -348,6 +363,7 @@ function initLocalManager() {
     saveCustomSites(sites);
     event.target.reset();
     document.getElementById('siteSection').value = section;
+    document.getElementById('targetSectionName').textContent = section;
     renderCustomSiteList();
     refreshCards();
   });
@@ -588,6 +604,14 @@ function renderCards(sections) {
       a.appendChild(popup);
       grid.appendChild(a);
     });
+
+    const addCard = document.createElement('button');
+    addCard.type = 'button';
+    addCard.className = 'card add-card';
+    addCard.setAttribute('aria-label', `新增到${section}`);
+    addCard.innerHTML = '<span class="add-card-plus">+</span>';
+    addCard.addEventListener('click', () => openAddSiteModal(section));
+    grid.appendChild(addCard);
 
     sec.appendChild(grid);
     main.appendChild(sec);
