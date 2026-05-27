@@ -234,7 +234,7 @@ function saveCustomSites(sites) {
 }
 
 function normalizeUrl(url) {
-  const trimmed = url.trim();
+  const trimmed = url.trim().replace(/\s+/g, '');
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
   return `https://${trimmed}`;
 }
@@ -350,7 +350,10 @@ function initLocalManager() {
     if (!title || !url) return;
 
     const domain = getDomain(url);
-    if (!domain) return;
+    if (!domain) {
+      document.getElementById('siteUrl').focus();
+      return;
+    }
 
     const sites = getCustomSites().filter(site => getDomain(site.url) !== domain);
     sites.unshift({
