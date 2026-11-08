@@ -339,6 +339,12 @@
         "url": "https://prompthub.xin/",
         "desc": "提示词库、收藏和创作分享",
         "data-desc": "prompthub prompt 提示词 seedance 即梦"
+      },
+      {
+        "title": "agent-qa",
+        "url": "https://vostride.com",
+        "desc": "网页与移动端QA，持久记忆与经验证的自我改进",
+        "data-desc": "agent-qa vostride QA 网页测试 Android iOS 移动端 持久记忆 memidex 自我改进 MCP"
       }
     ]
   }
